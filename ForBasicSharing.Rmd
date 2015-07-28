@@ -1,6 +1,6 @@
 ---
 title: "For Basic Sharing"
-author: "NingChen"
+author: "Ning Chen"
 output:
   revealjs::revealjs_presentation:
     theme: "solarized"
@@ -32,7 +32,15 @@ head(Boston)
 
 ---
 
-
+ Item | 翻譯 | Item | 翻譯
+-|-|-|-
+crim | 犯罪率 | dis | weighted mean of distances to five Boston employment centres距離上班商業中心地點的英哩數
+zn | 住宅區比例 | rad | index of accessibility to radial highways.可到最近的主要高速公路網路的便利指標
+indus | 工業區比例 | Tax | full-value property-tax rate per \$10,000.房屋與土地相關的 Tax 比例
+chas | Charles River dummy variable | ptratio | pupil-teacher ratio by town 平均學生vs教師比例
+nox | 空氣中的一氧化氮比例(ppm) nitrogen oxides concentration (parts per 10 million) | black | 1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town 非洲裔人口比例
+Rooms | 平均每戶的房間數目 | lstat | lower status of the population (percent).低收入戶比例
+age | proportion of owner-occupied units built prior to 1940.1940年前所建的自宅比例 | medv | median value of owner-occupied homes in $1000s.自有住宅房價中位數
 
 
 
@@ -71,8 +79,9 @@ rbind(colMeans(Boston),colMeans(MEDV50))
 
 ---
 
-### 哪些因素跟房價有正相關或是負相關?
-### 加上分類
+### 還有哪些分析??
+ 哪些因素跟房價有正相關或是負相關?
+ 加上分類
 
 ---
 
@@ -81,9 +90,11 @@ rbind(colMeans(Boston),colMeans(MEDV50))
 str(Boston)
 ```
 
+
 # Chapter2 我們所分析的數據代表什麼意義？
 
 ---
+
 - 名目資料(nomial)
 - 順序資料(ordinal)
 - 區間資料(interval)
@@ -100,7 +111,7 @@ str(Boston)
 
 ---
 
-### 名目資料
+<h4 style="font-size:72px"> 名目資料 <h4>
 數值只用於記號，"值"毫無意義的數據
 
 * 性別
@@ -118,18 +129,18 @@ str(Boston)
 
 ---
 
-### 順序資料
+<h4 style="font-size:72px"> 順序資料 <h4>
 數值有順序關係，但是差距沒有意義
 *名次
 *排序表
 第一名的成績一定比第二名好,
 但不代表第一名比第二名好兩倍
 
-![一流大學補助][]
+![一流大學補助](order_example.png)
 
 ---
 
-### 區間資料
+<h4 style="font-size:72px"> 區間資料 <h4>
 有差距的概念，沒有倍數的概念。
 數值有1的概念，沒有0的概念。可加減。
 *溫度
@@ -137,7 +148,7 @@ str(Boston)
 
 ---
 
-### 比值資料
+<h4 style="font-size:72px"> 比值資料<h4>
 同時有差距和倍數的概念。
 可加減乘除。
 *使用者人數
@@ -151,7 +162,7 @@ no. | 資料衡量尺度 | 變數形態 | 特性 | Hint
 
 ---
 
-###Factor
+<h4 style="font-size:72px"> Factor <h4>
 常用於處理質性變數
 ```{r factor-levels}
 x <- c("F","M","F","F")
@@ -165,7 +176,7 @@ as.integer(x)
 
 ---
 
-### 向量式資料結構
+<h4 style="font-size:72px"> 向量式資料結構 <h4>
 我要輸入12月份
 ```{r vector}
 Month1=c(1,2,3,4,5,6,7,8,9,10,11,12)
@@ -181,7 +192,7 @@ length(Month2)
 
 ---
 
-### 同質性向量 Vector(Swirl)
+<h4 style="font-size:72px"> 同質性向量 Vector<h4>
 Character > Numeric > Integer > Logical
 ```{r homogenous}
 x <- c(1L, 2.0, "3")
@@ -192,7 +203,7 @@ x
 
 ---
 
-###異質性資料 List(Swirl)
+<h4 style="font-size:72px">異質性資料 List(Swirl)<h4>
 ```{r}
 x<-list(1L,2,"3")
 ```
@@ -203,7 +214,7 @@ x<-list(1L,2,"3",mean)
 
 ---
 
-### 異質性資料 dataframe
+<h4 style="font-size:72px">異質性資料 dataframe</h4>
 View(Boston)
 
 ---
