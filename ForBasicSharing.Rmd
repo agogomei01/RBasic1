@@ -2,14 +2,18 @@
 title: "ForBasicSharing"
 author: "NingChen"
 output:
-  html_document:
-    number_sections: yes
-    toc: yes
+  revealjs::revealjs_presentation:
+    theme: "white"
+---
+
 ---
 
 ![USALandCollect](Boston.png)
 
-#第一次使用R不害怕
+
+---
+
+### 第一次使用R不害怕
 
 ```{r}
 library(MASS)
@@ -18,31 +22,57 @@ head(Boston)
 
 ```
 
-##如果我要投資...怎作？
+---
+
+### 如果我要投資...怎作？
+
 ```{r}
 table(Boston$medv)
+```
+
+---
+
+```{r}
 barplot(table(Boston$medv))
+```
+
+---
+
+```{r}
 MEDV50=subset(Boston,Boston$medv==50)
 #比較富裕區與一般波士頓區域的差距
+
+library(knitr)
 colMeans(Boston)
 colMeans(MEDV50)
+```
+
+---
+
+```{r}
 rbind(colMeans(Boston),colMeans(MEDV50))
 ```
 
-##哪些因素跟房價有正相關或是負相關?
-##加上分類
+---
 
-##如何看資料集的結構
+### 哪些因素跟房價有正相關或是負相關?
+### 加上分類
+
+---
+
+### 如何看資料集的結構
 ```{r}
 str(Boston)
 ```
 
 
-#Chapter2 我們所分析的數據代表什麼意義？
+## Chapter2 我們所分析的數據代表什麼意義？
 - 名目資料(nomial)
 - 順序資料(ordinal)
 - 區間資料(interval)
 - 比例資料(ratio)
+
+---
 
  ""|"資料衡量尺度" |"變數形態"|"特性"
  - |- |- |-
@@ -50,6 +80,8 @@ str(Boston)
  2|"順序資料"|"質化"|"優先順序"
  3|"區間資料"|"量化"|"大小距離"
  4|"比例資料"|"量化"|"比值"
+
+---
 
 ### 名目資料
 數值只用於記號，"值"毫無意義的數據
@@ -67,6 +99,7 @@ str(Boston)
 ------------- | -------------
 1  | 2
 
+---
 
 ### 順序資料
 數值有順序關係，但是差距沒有意義
@@ -77,11 +110,15 @@ str(Boston)
 
 ![一流大學補助][]
 
+---
+
 ### 區間資料
 有差距的概念，沒有倍數的概念。
 數值有1的概念，沒有0的概念。可加減。
 *溫度
 *時間
+
+---
 
 ### 比值資料
 同時有差距和倍數的概念。
@@ -97,6 +134,8 @@ str(Boston)
  4|"比例資料"|"量化"|"比值"|同時有差距和倍數的概念
 可加減乘除。
 
+---
+
 ###Factor
 常用於處理質性變數
 ```{r factor-levels}
@@ -108,6 +147,8 @@ x <- factor(c("F","M","F","F"), levels=c("F"))
 levels(x)
 as.integer(x)
 ```
+
+---
 
 ### 向量式資料結構
 我要輸入12月份
@@ -122,6 +163,9 @@ length(Month2)
 
 *Vectorize 向量可以相加
 1:3+2:4
+
+---
+
 ### 同質性向量 Vector(Swirl)
 Character > Numeric > Integer > Logical
 ```{r homogenous}
@@ -131,6 +175,8 @@ x
 ```
 * 改一個，全部就都變了
 
+---
+
 ###異質性資料 List(Swirl)
 ```{r}
 x<-list(1L,2,"3")
@@ -139,6 +185,9 @@ x<-list(1L,2,"3")
 ```{r}
 x<-list(1L,2,"3",mean)
 ```
+
+---
+
 ### 異質性資料 dataframe
 View(Boston)
 
