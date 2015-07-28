@@ -1,26 +1,42 @@
 ---
-title: "ForBasicSharing"
+title: "For Basic Sharing"
 author: "NingChen"
 output:
   revealjs::revealjs_presentation:
-    theme: "white"
+    theme: "solarized"
 ---
 
----
 
 ![USALandCollect](Boston.png)
 
 
+
+# R可以怎幫助我們?
+
 ---
 
-### 第一次使用R不害怕
+### 讓我們用內建資料來解題吧～～
 
 ```{r}
 library(MASS)
+```
+
+---
+
+### 有哪些了解資料的方法
+```{r}
 data(Boston)
 head(Boston)
 
 ```
+
+---
+
+
+
+
+
+
 
 ---
 
@@ -65,8 +81,9 @@ rbind(colMeans(Boston),colMeans(MEDV50))
 str(Boston)
 ```
 
+# Chapter2 我們所分析的數據代表什麼意義？
 
-## Chapter2 我們所分析的數據代表什麼意義？
+---
 - 名目資料(nomial)
 - 順序資料(ordinal)
 - 區間資料(interval)
@@ -189,3 +206,4 @@ x<-list(1L,2,"3",mean)
 ### 異質性資料 dataframe
 View(Boston)
 
+---
