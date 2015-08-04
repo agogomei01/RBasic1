@@ -59,11 +59,19 @@ rbind(colMeans(Boston),colMeans(MEDV50))
 #解釋1非常正相關 -1是非常負相關
 cor(Boston$medv,Boston)
 
+
+
 barplot(cor(Boston$medv,Boston))
 
-#??sort.int(cor(Boston$medv,Boston),index.return = TRUE)
+??如何調整y軸
 
-#與房間數是正相關,與低收入戶比例負相關
+#與房間數是正相關,與收入戶比例負相關
+
+plot(Boston$medv,Boston$lstat)
+LM=lm(Boston$medv~Boston$lstat)
+abline(LM,col=2)
+#看出收入與房價的關係
+
 ```
 
 ##加上分類
