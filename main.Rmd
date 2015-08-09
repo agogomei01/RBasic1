@@ -6,6 +6,7 @@ output:
     number_sections: yes
     toc: yes
 ---
+
 #Chapter1 WhyR 
 
 
@@ -26,14 +27,30 @@ output:
 
 ##第一次使用R不害怕
 
+- 你沒看錯，今天其實是投資說明會，教你買地!
+- 開玩笑的，等等我們會用 R 來根據資料分析一下，看看怎樣的地才是好地 (地價高) 呢?
+
+- R 有很多套件，裡面會有很多內建的資料集可以使用。
+- 這次我們要使用的是 `MASS` 這個套件中的 `Boston` 資料集。
+
 
 ```{r}
 library(MASS)
 #介紹引入套件
 data(Boston)
+```
+
+### 查看資料
+
+- `head` 會列出"頭" 6 筆資料。
+
+```{r}
 head(Boston)
 
 ```
+
+你也可以使用Tail(),summary(),str()
+
 
 ##Boston Dataset有哪些Variables
 
@@ -53,20 +70,81 @@ age | proportion of owner-occupied units built prior to 1940.
 #解釋1非常正相關 -1是非常負相關
 cor(Boston$medv,Boston)
 
-
-
 barplot(cor(Boston$medv,Boston))
 
-??如何調整y軸
+#??如何調整y軸
 
-#與房間數是正相關,與收入戶比例負相關
+#與房間數是正相關,與低收入戶比例負相關
 
+#看低收入戶比例
 plot(Boston$medv,Boston$lstat)
 LM=lm(Boston$medv~Boston$lstat)
 abline(LM,col=2)
-#看出收入與房價的關係
+#練習房間數與房價的關係
 
 ```
+
+
+##如果要買富裕區 有哪些特徵是重要的?
+(比較富裕區與一般波士頓區域的差距)
+
+### 找出前 5% (10%) 的房價
+
+```{r, cache=TRUE}
+quantile(Boston$medv, c(0.95, 0.9))
+```
+
+### 房價分布圖
+
+- 使用 `hist` 做出房價的柱狀圖。
+
+```{r, cache=TRUE}
+hist(Boston$medv, breaks = 20)
+```
+
+#### 房價分布圖
+
+- 使用 `hist` 做出房價的柱狀圖。
+- 接著使用 `abline` 標示出剛剛計算的前 5% 高的房價位置。
+
+```{r, cache=TRUE}
+hist(Boston$medv, breaks = 20)
+abline(v = 43.4, col="red")
+```
+
+### 平均
+
+- 前 5% 的房子的各項平均與其他房子是否有差異?
+- 用 R 簡單計算來看看!
+
+#### 平均
+
+- 使用 `subset` 做分群。
+
+```{r, cache=TRUE}
+MEDVhight = subset(Boston,Boston$medv>=43.4)
+MEDVOther = subset(Boston,Boston$medv< 43.4)
+# MEDVhight 為房價高的資料
+# MEDVOther 其他資料
+```
+
+#### 平均
+
+- 使用 `colMeans` 計算各欄位平均。
+
+```{r, cache=TRUE}
+colMeans(MEDVhight)
+colMeans(MEDVOther)
+```
+
+---
+
+- 使用 `rbind` 合併資料表。
+
+```{r, cache=TRUE}
+rbind(colMeans(MEDVhight),colMeans(MEDVOther))
+```
+
 
 ##加上分類
 ```{r}
@@ -78,23 +156,6 @@ Boston$Income=cut(Boston$lstat,breaks=3,label=c("L","M","H"))
 #解釋data.frame;解釋num,int,factor
 table(Boston$Income)
 pie(table(Boston$Income))
-```
-
-
-##比較富裕區與一般波士頓區域的差距
-```{r}
-table(Boston$medv)
-barplot(table(Boston$medv))
-MEDV50=subset(Boston,Boston$medv==50)
-```
-
-比較富裕區與一般波士頓區域的差距
-```{r}
-
-colMeans(Boston)
-colMeans(MEDV50)
-
-rbind(colMeans(Boston),colMeans(MEDV50))
 ```
 
 
@@ -249,7 +310,7 @@ substring(name2, 1, 2)
 
 ###Factor(常用於處理質性變數)
 如何處理名目變數?
-```{r factor-levels}
+```{r factor-levels normial}
 x <- c("F","M","F","F")
 x
 x <- factor(c("F","M","F","F"), levels=c("F","M"))
@@ -260,7 +321,7 @@ as.integer(x)
 ```
 如何處理順序變數?
 
-```{r factor-levels}
+```{r factor-levels ordinal}
 #農業社會 男女男卑
 Argri <- factor(c("F","M","F","F"),order=TRUE,levels=c("F","M"))
 
@@ -454,17 +515,17 @@ x[x > 3]
 ```
 
 
-## 小挑戰選取台北恆春天氣資料
+## 小挑戰選取台北恆春天氣資料(code跑不太出來)
 ```{r}
 # 先印出台北跟恆春每個月平均溫度
 TaipeiTem
 HengchunTem
 # 分別選取出兩地溫度>20度的月份
-1. > <
+#1. "> <"
 TaipeiTem>20
 TaipeiHotMonths = TaipeiTem[TaipeiTem>20]
 
-2. True & False
+#2. True & False
 SelectMonth= HengchunTem>20
 HengchunHotMonths = HengchunTem[SelectMonth==TRUE]
 ```
@@ -476,9 +537,9 @@ mean(TaipeiTem[7:9])
 HengchunTem[7:9]
 mean(HengchunTem[7:9])
     ```
-- 找出冬天(十二,一,二月)平均溫度
+- 找出冬天(十二,一,二月)平均溫度(想要能有錯誤訊息)
 ```{r,error=FALSE}
-TaipeiTem[1,2,12]
+# TaipeiTem[1,2,12]
 
 mean(TaipeiTem[c(1,2,12)])
 mean(HengchunTem[c(1,2,12)])
@@ -533,4 +594,6 @@ head(Boston[["crim"]]) # head(power$name)
 Swirls
 Introduction to R(around 4 hours)
 https://www.datacamp.com/courses/free-introduction-to-r
+
+# Acknowlege
 
