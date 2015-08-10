@@ -450,26 +450,24 @@ RBasic=cbind(c(1,2,3),c("Dboy", "Ning", "Noha"))
 ```
 ###Merge(??)
 ```{r}
-#PageView <- read.table(header=TRUE, text='
-#+     Date       PageView Rating
-#+           7/1      1231     6.7
-#+           7/2      5423    4.5
-#+           7/3      3219    3.7
-#+           7/4       998    3.3
-#+           7/5       3241    4.1
-#+           7/6       1223    5.2
-#+ ')
-#Promotion <- read.table(header=TRUE, text='
-#+     Date       Promotion 
-#+           7/1      N
-#+           7/2      Y
-#+           7/3      Y
-#+           7/4      N
-#+           7/5      Y
-#+           7/6      N  
-#+ ')
+PageView <- read.table(header=TRUE, text='
+     Date       PageView Rating
+           7/1      1231     6.7
+           7/2      5423    4.5
+           7/3      3219    3.7
+           7/4       998    3.3
+           7/5       3241    4.1
+           7/6       1223    5.2')
+Promotion <- read.table(header=TRUE, text='
+     Date       Promotion 
+           7/1      N
+           7/2      Y
+           7/3      Y
+           7/4      N
+           7/5      Y
+           7/6      N   ')
 
-#merge(PageView,Promotion,"Date")
+merge(PageView,Promotion,"Date")
 ```
 
 ### 轉換資料結構 
