@@ -2,11 +2,30 @@
 title: "R Basic1"
 author: "NingChen"
 output:
-  revealjs::revealjs_presentation:
-    number_sections: yes
-    css: main.css
+  revealjs::revealjs_presentation
 
 ---
+
+<style>
+.reveal pre code {background:red;}
+div.hidecode + pre + pre {display: none}
+</style>
+<script>
+doclick=function(e){
+  var elem = e.nextSibling.nextSibling.nextSibling.nextSibling;
+  if(elem.style.display=="none"){
+    elem.style.display="block";
+  }else{
+    elem.style.display="none";
+  }
+}
+</script>
+
+
+<div class="hidecode" onclick="doclick(this);">[Show]</div>
+```{r}
+summary(cars)
+```
 
 # Chapter1 WhyR 
 
@@ -14,7 +33,7 @@ output:
 
 ## R?
 
-- 1976 貝爾實驗室John Chambers,Rick Becker,Allan Wilks研發S語言  
+- 1976 貝爾實驗室John Chambers,Rick Becker,Allan Wilks研發S語言
 - 1993 Ross Ihaka and Robert Gentlemen,University of Auckland, New Zealand 研發R語言  
 - R語言是一種基於S語言所發展出具備統計分析,繪圖與資料視覺化的程式語言  
 - 1997 R的核心開發團隊(R development core team)成立,專責R原始碼的修改與編寫  
@@ -42,7 +61,7 @@ output:
 - 這次我們要使用的是 `MASS` 這個套件中的 `Boston` 資料集。
 
 
-```{r,eval=FALSE}
+```{r,eval=TRUE}
 library(MASS)
 #介紹引入套件
 data(Boston)
