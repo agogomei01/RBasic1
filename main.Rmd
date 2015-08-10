@@ -11,10 +11,10 @@ output:
 
 
 ## R?
--1976 貝爾實驗室John Chambers,Rick Becker,Allan Wilks研發S語言
-- 1993 Ross Ihaka and Robert Gentlemen,University of Auckland, New Zealand 研發R語言
---R語言是一種基於S語言所發展出具備統計分析,繪圖與資料視覺化的程式語言
--1997 R的核心開發團隊(R development core team)成立,專責R原始碼的修改與編寫
+- 1976 貝爾實驗室John Chambers,Rick Becker,Allan Wilks研發S語言  
+- 1993 Ross Ihaka and Robert Gentlemen,University of Auckland, New Zealand 研發R語言  
+- R語言是一種基於S語言所發展出具備統計分析,繪圖與資料視覺化的程式語言  
+- 1997 R的核心開發團隊(R development core team)成立,專責R原始碼的修改與編寫  
 
 
 [Companies Using R](http://www.revolutionanalytics.com/companies-using-r)
@@ -133,12 +133,10 @@ cor(Boston$medv,Boston)
 
 barplot(cor(Boston$medv,Boston))
 
-#??如何調整y軸
-
 #與房間數是正相關,與低收入戶比例負相關
 
 #看低收入戶比例
-plot(Boston$medv,Boston$lstat)
+plot(Boston$lstat,Boston$medv)
 LM=lm(Boston$medv~Boston$lstat)
 abline(LM,col=2)
 #練習房間數與房價的關係
@@ -168,7 +166,8 @@ abline(v = mean(MEDVOther$rm), col="red")
 ```
 
 1. 平均數 rbind->富裕區 犯罪率較低 工業區較少 住宅區比例高
-2. 相關性 -> 房價跟房間數正相關,低收入戶多寡負相關    **富裕區房間數集中在七到八間,非富裕區房間數5間到七間,房價受房間數影響**
+2. 相關性 -> 房價跟房間數正相關,低收入戶多寡負相關   
+  **富裕區房間數集中在七到八間,非富裕區房間數5間到七間,房價受房間數影響**
 
 
 
@@ -184,8 +183,8 @@ MEDVhight$Income
 #富裕區收入都是High Level
 ```
 
-1. 平均數 rbind->富裕區 犯罪率較低 工業區較少 住宅區比例高
-2. 相關性 -> 房價跟房間數正相關,低收入戶多寡負相關    富裕區房間數集中在七到八間,非富裕區房間數5間到七間,房價受房間數影響
+- 平均數 rbind->富裕區 犯罪率較低 工業區較少 住宅區比例高
+- 相關性 -> 房價跟房間數正相關,低收入戶多寡負相關    富裕區房間數集中在七到八間,非富裕區房間數5間到七間,房價受房間數影響  
     **富裕區所得收入都高**
 
 "take a rest"
@@ -281,10 +280,10 @@ x
  4|"比例資料"|"量化"|"比值"
 
 ### 名目資料
-數值只用於記號，"值"毫無意義的數據
+數值只用於記號，"值"毫無意義的數據  
 
-* 性別
-* 國家/班級
+- 性別
+- 國家/班級
 
 
 
@@ -298,23 +297,22 @@ x
 
 
 ### 順序資料
-數值有順序關係，但是差距沒有意義
-*名次
-*排序表
-第一名的成績一定比第二名好,
-但不代表第一名比第二名好兩倍
+數值有順序關係，但是差距沒有意義  
+- 名次  
+- 排序表  
+第一名的成績一定比第二名好,但不代表第一名比第二名好兩倍
 
 ### 區間資料
-有差距的概念，沒有倍數的概念。
-數值有1的概念，沒有0的概念。可加減。
-*溫度
-*時間
+有差距的概念，沒有倍數的概念。  
+數值有1的概念，沒有0的概念。可加減。  
+- 溫度  
+- 時間
 
 ### 比值資料
-同時有差距和倍數的概念。
-可加減乘除。
-*使用者人數
-*營收
+同時有差距和倍數的概念。 
+可加減乘除。 
+- 使用者人數  
+- 營收
 
 ## R 的資料形態分類
 
@@ -424,9 +422,10 @@ x<-list(1L,2,"3",mean)
 ### 異質性資料 dataframe
 View(Boston)
 str(Boston)
+
 #### Ways to add a column
-Boston$Income<-
-Boston[["Income"]]<-
+Boston$Income<-  
+Boston[["Income"]]<-  
 
 #### Ways to remove the column
 Boston$Income<-NULL
@@ -448,7 +447,7 @@ RBasicTeacher=c("Dboy", "Ning", "Noha")
 RBasicCbind=cbind(Serial,RBasicTeacher)
 RBasic=cbind(c(1,2,3),c("Dboy", "Ning", "Noha"))
 ```
-###Merge(??)
+###Merge
 ```{r}
 PageView <- read.table(header=TRUE, text='
      Date       PageView Rating
@@ -570,17 +569,20 @@ x[x > 3]
 ```
 
 
-## 小挑戰選取台北恆春天氣資料(code跑不太出來)
+## 小挑戰選取台北恆春天氣資料
 ```{r}
 # 先印出台北跟恆春每個月平均溫度
 TaipeiTem
 HengchunTem
+```
 # 分別選取出兩地溫度>20度的月份
-#1. "> <"
+- "> <"
+```{r}
 TaipeiTem>20
 TaipeiHotMonths = TaipeiTem[TaipeiTem>20]
-
-#2. True & False
+```
+- True & False
+```{r}
 SelectMonth= HengchunTem>20
 HengchunHotMonths = HengchunTem[SelectMonth==TRUE]
 ```
@@ -636,10 +638,10 @@ head(Boston[["crim"]]) # head(power$name)
 
 
 # 補充資料
-Swirls
-Introduction to R(around 4 hours)
-https://www.datacamp.com/courses/free-introduction-to-r
-Cookbook for R
+- Swirls  
+- Introduction to R(around 4 hours)  
+https://www.datacamp.com/courses/free-introduction-to-r  
+- Cookbook for R
 
 # Acknowlege
 DBoy,Wush,智程
