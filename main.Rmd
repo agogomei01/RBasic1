@@ -62,8 +62,69 @@ indus | 工業區比例 | Tax|full-value property-tax rate per \$10,000.房屋�
 chas | Charles River dummy variable | ptratio | pupil-teacher ratio by town 平均學生vs教師比例
 nox | 空氣中的一氧化氮比例(ppm)nitrogen oxides concentration (parts per 10 million). | black | 1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town.非洲裔人口比例
 Rooms | 平均每戶的房間數目 | lstat | lower status of the population (percent).低收入戶比例
-age | proportion of owner-occupied units built prior to 1940.
-1940年前所建的自宅比例 | medv | median value of owner-occupied homes in \$1000s.自有住宅房價中位數
+age | proportion of owner-occupied units built prior to 1940.1940年前所建的自宅比例 | medv | median value of owner-occupied homes in \$1000s.自有住宅房價中位數
+
+
+##如果要買富裕區 房間數跟低收入戶多寡是否有影響?
+(比較富裕區與一般波士頓區域的差距)
+
+### 找出前 5% (10%) 的房價
+
+```{r, cache=TRUE}
+quantile(Boston$medv, c(0.95, 0.9))
+```
+
+#### 房價分布圖
+
+- 使用 `hist` 做出房價的柱狀圖。
+
+```{r, cache=TRUE}
+hist(Boston$medv, breaks = 20)
+```
+
+#### 房價分布圖
+
+- 使用 `hist` 做出房價的柱狀圖。
+- 接著使用 `abline` 標示出剛剛計算的前 5% 高的房價位置。
+
+```{r, cache=TRUE}
+hist(Boston$medv, breaks = 20)
+abline(v = 43.4, col="red")
+```
+
+#### 高房價與其他是否有差異
+
+- 前 5% 的房子的各項平均與其他房子是否有差異?
+- 用 R 簡單計算來看看!
+
+##### 平均-高房價與其他是否有差異
+
+- 使用 `subset` 做分群。
+
+```{r, cache=TRUE}
+MEDVhight = subset(Boston,Boston$medv>=43.4)
+MEDVOther = subset(Boston,Boston$medv< 43.4)
+# MEDVhight 為房價高的資料
+# MEDVOther 其他資料
+```
+
+##### 平均-高房價與其他是否有差異
+
+- 使用 `colMeans` 計算各欄位平均。
+
+```{r, cache=TRUE}
+colMeans(MEDVhight)
+colMeans(MEDVOther)
+```
+ 
+---
+
+- 使用 `rbind` 合併資料表。
+
+```{r, cache=TRUE}
+rbind(colMeans(MEDVhight),colMeans(MEDVOther))
+```
+富裕區 犯罪率較低 工業區較少 住宅區比例高
 
 ##哪些因素跟房價有相關?
 ```{r}
@@ -85,78 +146,50 @@ abline(LM,col=2)
 ```
 
 
-##如果要買富裕區 有哪些特徵是重要的?
-(比較富裕區與一般波士頓區域的差距)
+1. 平均數 rbind->富裕區 犯罪率較低 工業區較少 住宅區比例高
+2. 相關性 -> 房價跟房間數正相關,低收入戶多寡負相關
 
-### 找出前 5% (10%) 的房價
-
-```{r, cache=TRUE}
-quantile(Boston$medv, c(0.95, 0.9))
+##富裕區跟非富裕區 房間數的關聯度
+```{r}
+cor(MEDVhight$medv,MEDVhight$rm)
+cor(MEDVOther$medv,MEDVOther$rm)
+```
+為甚房間數多寡對於富裕區房價影響較低?
+練習用直方圖來找答案(hist)
+```{r}
+hist(MEDVhight$rm)
+ObsHigh=paste(length(MEDVhight$rm),"Items",sep=" ")
+text(6,8,ObsHigh,cex= 2,col=3)
+abline(v = mean(MEDVhight$rm), col="red")
+hist(MEDVOther$rm)
+ObsOther=paste(length(MEDVOther$rm),"Items",sep=" ")
+text(6,8,ObsOther,cex= 2,col=3)
+abline(v = mean(MEDVOther$rm), col="red")
 ```
 
-### 房價分布圖
-
-- 使用 `hist` 做出房價的柱狀圖。
-
-```{r, cache=TRUE}
-hist(Boston$medv, breaks = 20)
-```
-
-#### 房價分布圖
-
-- 使用 `hist` 做出房價的柱狀圖。
-- 接著使用 `abline` 標示出剛剛計算的前 5% 高的房價位置。
-
-```{r, cache=TRUE}
-hist(Boston$medv, breaks = 20)
-abline(v = 43.4, col="red")
-```
-
-### 平均
-
-- 前 5% 的房子的各項平均與其他房子是否有差異?
-- 用 R 簡單計算來看看!
-
-#### 平均
-
-- 使用 `subset` 做分群。
-
-```{r, cache=TRUE}
-MEDVhight = subset(Boston,Boston$medv>=43.4)
-MEDVOther = subset(Boston,Boston$medv< 43.4)
-# MEDVhight 為房價高的資料
-# MEDVOther 其他資料
-```
-
-#### 平均
-
-- 使用 `colMeans` 計算各欄位平均。
-
-```{r, cache=TRUE}
-colMeans(MEDVhight)
-colMeans(MEDVOther)
-```
-
----
-
-- 使用 `rbind` 合併資料表。
-
-```{r, cache=TRUE}
-rbind(colMeans(MEDVhight),colMeans(MEDVOther))
-```
+1. 平均數 rbind->富裕區 犯罪率較低 工業區較少 住宅區比例高
+2. 相關性 -> 房價跟房間數正相關,低收入戶多寡負相關    **富裕區房間數集中在七到八間,非富裕區房間數5間到七間,房價受房間數影響**
 
 
-##加上分類
+
+##富裕區 低收入戶多寡
+我們可以嘗試將收入戶分類
 ```{r}
 Boston$Income=cut(Boston$lstat,breaks=3)
 Boston$Income
 
-Boston$Income=cut(Boston$lstat,breaks=3,label=c("L","M","H"))
-
-#解釋data.frame;解釋num,int,factor
-table(Boston$Income)
-pie(table(Boston$Income))
+Boston$Income= cut(Boston$lstat,breaks=3,labels=c("H","M","L"))
+MEDVhight = subset(Boston,Boston$medv>=43.4)
+MEDVhight$Income
+#富裕區收入都是High Level
 ```
+
+1. 平均數 rbind->富裕區 犯罪率較低 工業區較少 住宅區比例高
+2. 相關性 -> 房價跟房間數正相關,低收入戶多寡負相關    富裕區房間數集中在七到八間,非富裕區房間數5間到七間,房價受房間數影響
+    **富裕區所得收入都高**
+
+"take a rest"
+
 
 
 
@@ -596,4 +629,4 @@ Introduction to R(around 4 hours)
 https://www.datacamp.com/courses/free-introduction-to-r
 
 # Acknowlege
-
+DBoy,Wush,智程
