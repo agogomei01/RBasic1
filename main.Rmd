@@ -28,7 +28,28 @@ doclick=function(e){
     elem.style.display="none";
   }
 }
+document.body.onload = function(){
+  console.log("foo");
+  var elems = document.getElementsByClassName("fragthis");
+  for( i=0; i<elems.length;i++){
+    e = elems[i].nextSibling.nextSibling.nextSibling.nextSibling;
+    e.setAttribute("data-fragment-index","0");
+    e.className = e.className + " fragment";
+  }
+}
 </script>
+
+<div class="fragthis"></div>
+```{r}
+summary(cars)
+```
+
+---
+
+<div class="fragthis"></div>
+```{r}
+summary(cars)
+```
 
 
 # WhyR 
