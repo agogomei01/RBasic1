@@ -1,5 +1,5 @@
 ---
-title: "R Basic1"
+title: "R Basic-DataStructure"
 author: "NingChen"
 output:
   revealjs::revealjs_presentation
@@ -7,7 +7,16 @@ output:
 ---
 
 <style>
-.reveal pre code {background:red;}
+.reveal pre code {
+  background:white;
+  color: black;
+}
+
+.reveal pre code span {
+  color: black;
+  font-weight: normal;
+}
+
 div.hidecode + pre + pre {display: none}
 </style>
 <script>
@@ -22,12 +31,7 @@ doclick=function(e){
 </script>
 
 
-<div class="hidecode" onclick="doclick(this);">[Show]</div>
-```{r}
-summary(cars)
-```
-
-# Chapter1 WhyR 
+# WhyR 
 
 ---
 
@@ -50,12 +54,8 @@ summary(cars)
 
 ---
 
-## 第一次使用R不害怕
-
----
-
 - 你沒看錯，今天其實是投資說明會，教你買地!
-- 開玩笑的，等等我們會用 R 來根據資料分析一下，看看怎樣的地才是好地 (地價高) 呢?
+- 等等我們會用 R 來根據資料分析一下，看看怎樣的地才是好地 (地價高) 呢?
 
 - R 有很多套件，裡面會有很多內建的資料集可以使用。
 - 這次我們要使用的是 `MASS` 這個套件中的 `Boston` 資料集。
@@ -69,16 +69,18 @@ data(Boston)
 
 ---
 
-### 查看資料
+### 看看有甚資料
 
 - `head` 會列出"頭" 6 筆資料。
 
+<div class="hidecode" onclick="doclick(this);">[Show]</div>
 ```{r}
 head(Boston)
-
 ```
 
-你也可以使用Tail(),summary(),str()
+---
+
+你也可以使用head(),Tail(),summary(),str()
 
 ---
 
@@ -96,16 +98,72 @@ age | proportion of owner-occupied units built prior to 1940.1940年前所建的
 
 ---
 
-## 如果要買富裕區 房間數跟低收入戶多寡是否有影響?
+## 哪些因素跟房價有相關?
 
-(比較富裕區與一般波士頓區域的差距)
+```{r}
+#解釋1非常正相關 -1是非常負相關
+cor(Boston$medv,Boston)
+```
 
 ---
 
-### 找出前 5% (10%) 的房價
+R也可以讓你用圖來看各欄位跟房價之間的關聯度
 
 ```{r}
-quantile(Boston$medv, c(0.95, 0.9))
+barplot(cor(Boston$medv,Boston))
+
+```
+
+---
+
+####我們可以知道...
+
+房價與房間數是正相關,與低收入戶比例負相關
+
+---
+
+##### 我們再來畫畫圖看房間數跟房價關係
+
+---
+
+房間數跟房價關係
+
+```{r, echo=FALSE}
+
+plot(Boston$rm,Boston$medv)
+#x軸為房間數 y軸為房價
+LM=lm(Boston$medv~Boston$rm)
+#找出線性關係
+abline(LM,col=2)
+#畫出圖
+
+```
+
+---
+
+
+### 小練習 房間數與房價的關係
+
+---
+
+###  現在我們知道
+
+相關性 -> 房價跟房間數正相關,低收入戶多寡負相關
+(我們還畫幾張圖來看)
+
+---
+
+## 都能出國買房,買地要買就是要買最好的 最貴的
+
+
+---
+
+### 我要怎定義豪宅
+
+找出前 5% (10%) 的房價
+
+```{r}
+quantile(Boston$medv, probs = c(0.95, 0.9))
 ```
 
 ---
@@ -115,7 +173,7 @@ quantile(Boston$medv, c(0.95, 0.9))
 - 使用 `hist` 做出房價的柱狀圖。
 
 ```{r}
-hist(Boston$medv, breaks = 20)
+hist(Boston$medv,breaks=20)
 ```
 
 ---
@@ -123,7 +181,7 @@ hist(Boston$medv, breaks = 20)
 #### 房價分布圖
 
 - 使用 `hist` 做出房價的柱狀圖。
-- 接著使用 `abline` 標示出剛剛計算的前 5% 高的房價位置。
+- 使用 `abline` 標示出剛剛計算的前 5% 高的房價位置。
 
 ```{r}
 hist(Boston$medv, breaks = 20)
@@ -157,10 +215,11 @@ MEDVOther = subset(Boston,Boston$medv< 43.4)
 - 使用 `colMeans` 計算各欄位平均。
 
 ```{r}
-#colMeans(MEDVhight)
+colMeans(MEDVhight)
 ```
+
 ```{r}
-#colMeans(MEDVOther)
+colMeans(MEDVOther)
 ```
  
 ---
@@ -168,106 +227,88 @@ MEDVOther = subset(Boston,Boston$medv< 43.4)
 - 使用 `rbind` 合併資料表。
 
 ```{r}
-#rbind(colMeans(MEDVhight),colMeans(MEDVOther))
-```
-富裕區 犯罪率較低 工業區較少 住宅區比例高
-
----
-
-## 哪些因素跟房價有相關?
-
-```{r}
-#解釋1非常正相關 -1是非常負相關
-#cor(Boston$medv,Boston)
-
-#barplot(cor(Boston$medv,Boston))
-
-#與房間數是正相關,與低收入戶比例負相關
-
-#看低收入戶比例
-plot(Boston$lstat,Boston$medv)
-LM=lm(Boston$medv~Boston$lstat)
-abline(LM,col=2)
-#練習房間數與房價的關係
-
+rbind(colMeans(MEDVhight),colMeans(MEDVOther))
 ```
 
----
+高房價區 犯罪率較低 工業區較少 住宅區比例高
 
-1. 平均數 rbind->富裕區 犯罪率較低 工業區較少 住宅區比例高
-2. 相關性 -> 房價跟房間數正相關,低收入戶多寡負相關
 
----
 
-## 富裕區跟非富裕區 房間數的關聯度
-
-```{r}
-cor(MEDVhight$medv,MEDVhight$rm)
-cor(MEDVOther$medv,MEDVOther$rm)
-```
 
 ---
 
-為甚房間數多寡對於富裕區房價影響較低?
-練習用直方圖來找答案(hist)
-
----
-
-```{r}
-hist(MEDVhight$rm)
-ObsHigh=paste(length(MEDVhight$rm),"Items",sep=" ")
-text(6,8,ObsHigh,cex= 2,col=3)
-abline(v = mean(MEDVhight$rm), col="red")
-hist(MEDVOther$rm)
-ObsOther=paste(length(MEDVOther$rm),"Items",sep=" ")
-text(6,8,ObsOther,cex= 2,col=3)
-abline(v = mean(MEDVOther$rm), col="red")
-```
-
----
+#### 我們現在知道～～
 
 1. 平均數 rbind->富裕區 犯罪率較低 工業區較少 住宅區比例高
 2. 相關性 -> 房價跟房間數正相關,低收入戶多寡負相關   
-  **富裕區房間數集中在七到八間,非富裕區房間數5間到七間,房價受房間數影響**
+  
 
 ---
 
 
-## 富裕區 低收入戶多寡
+## 高房價區 低收入戶多寡分佈
 
-我們可以嘗試將收入戶分類
+我們可以嘗試將低收入戶分類
+
+<div class="hidecode" onclick="doclick(this);">[Show]</div>
 ```{r}
 Boston2=Boston
-Boston2$Income=cut(Boston$lstat,breaks=3)
+Boston2$Income=cut(Boston2$lstat,breaks=3)
+#將低收入戶比例分成三區
 Boston2$Income
-
-Boston2$Income= cut(Boston$lstat,breaks=3,labels=c("H","M","L"))
-MEDVhight2 = subset(Boston,Boston$medv>=43.4)
-MEDVhight2$Income
-#富裕區收入都是High Level
 ```
 
 ---
+
+也許用文字來看更清楚
+
+<div class="hidecode" onclick="doclick(this);">[Show]</div>
+```{r}
+Boston2$Income= cut(Boston2$lstat,breaks=3,labels=c("H","M","L"))
+MEDVhight2 = subset(Boston2,Boston$medv>=43.4)
+MEDVhight2$Income
+```
+
+---
+
+我可以計算有多少"H"嗎?
+
+<div class="hidecode" onclick="doclick(this);">[Show]</div>
+```{r}
+table(MEDVhight2$Income)
+```
+
+---
+## 練習 來算算其他區域的狀況
+
+---
+
+## Recape
 
 - 平均數 rbind->富裕區 犯罪率較低 工業區較少 住宅區比例高
-- 相關性 -> 房價跟房間數正相關,低收入戶多寡負相關    富裕區房間數集中在七到八間,非富裕區房間數5間到七間,房價受房間數影響  
-    **富裕區所得收入都高**
+- 相關性 -> 房價跟房間數正相關,低收入戶多寡負相關
 
 ---
 
-"take a rest"
+take a rest
+
+
 
 ---
 
-
+## 我們來回顧剛剛研究的dataset
 
 ```{r}
-str(Boston)
+str(Boston2)
 ```
+
 
 ---
 
-# Chapter2 我們所分析的數據代表什麼意義？
+# 我們所分析的數據代表什麼意義？
+
+
+
 
 ---
 
@@ -279,7 +320,7 @@ try
 ```{r}
 x=1 
 ```
-how to input more than lenth=1 ?
+how to input more than length=1 ?
 
 
 x=1,2
@@ -300,6 +341,8 @@ length(Month2)
 
 ---
 
+## 練習一下
+
 台北恆春每月平均溫度
 
 月份 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 
@@ -312,6 +355,13 @@ length(Month2)
 ```{r Temperature}
 TaipeiTem=c(16.1,16.5,18.5 ,	21.9 ,	25.2 ,	27.7 ,	29.6 ,	29.2,27.4,24.5 ,	21.5 ,	17.9)
 HengchunTem=c(20.7 , 21.4 , 23.2 ,  25.2 ,	27.0 ,	27.9 ,	28.4 ,	28.1 ,	27.4 ,	26.3 ,	24.3 ,	21.7)
+```
+
+---
+
+加上月份
+
+```{r}
 names(TaipeiTem)=Month1
 names(HengchunTem)=Month2
 ```
@@ -321,17 +371,24 @@ names(HengchunTem)=Month2
 
 ```{r, echo=TRUE}
 1:3
-c(1, 2, 3) + 1
+
 
 ```
 
 ---
-- 利用c和建立向量
-- 利用:建立序列
-- 運算是向量式的
+
+```{r}
+c(1, 2, 3) + 1
+```
+
+
 
 ![vectorize-plus-before](wush_img/vectorize-plus-before.png)
 ![vectorize-plus-after](wush_img/vectorize-plus-after.png)
+
+---
+
+## 練習看看
 
 ```{r, echo=TRUE}
 1:3 * 2
@@ -339,10 +396,10 @@ c(1, 2, 3) + 1
 
 ---
 
-### 同質性向量 Vector 
+### 向量有同質性 Vector 
 
 Character > Numeric > Integer > Logical
-```{r homogenous}
+```{r homogenous,eval=FALSE}
 x <- c(1L, 2.0, "3")
 class(x)
 x
@@ -353,6 +410,9 @@ x
 
 ## 統計上資料測量的尺度
 
+---
+
+ 統計上資料測量的尺度
 
 - 名目資料(nomial)
 - 順序資料(ordinal)
@@ -361,7 +421,7 @@ x
 
 ---
 
- ""|"資料衡量尺度" |"變數形態"|"特性"
+  |"資料衡量尺度" |"變數形態"|"特性"
  - |- |- |-
  1|"名目資料"|"質化"|"類別"
  2|"順序資料"|"質化"|"優先順序"
@@ -411,6 +471,7 @@ x
 
 同時有差距和倍數的概念。 
 可加減乘除。 
+
 - 使用者人數  
 - 營收
 
@@ -444,6 +505,13 @@ strsplit(x, "b")
 ```{r}
 name1<-"郭雪芙"
 substring(name1, 1, 1)
+```
+
+---
+
+練習一下 取出金城武的姓
+
+```{r}
 name2<-"金城武"
 substring(name2, 1, 2)
 ```
@@ -465,16 +533,23 @@ as.integer(x)
 
 ---
 
-如何處理順序變數?
+### 如何處理順序資料?
 
 ```{r factor-levels ordinal}
-#農業社會 男女男卑
+#農業社會 男尊女卑
 Argri <- factor(c("F","M","F","F"),order=TRUE,levels=c("F","M"))
 
 #阿美族 女尊男卑
 Amis <- factor(c("F","M","F","F"),order=FALSE,levels=c("F","M"))
+
 #應該要用
 Amis <- factor(c("F","M","F","F"),order=TRUE,levels=c("M","F"))
+```
+
+
+---
+
+```{r}
 #舉一個認真的例子 - 班上一號到六號分別拿到A,B,C的級別
 rank=factor(c("C","A","B","B","C","C"),order=TRUE,level=c("C","B","A"))
 rank
@@ -520,6 +595,19 @@ x <- 1
 x < 2
 x <= 1
 ```
+
+---
+
+Recape
+
+
+  |"資料衡量尺度" |"變數形態"|"特性"
+ - |- |- |-
+ 1|"名目資料"|"質化"|"類別"
+ 2|"順序資料"|"質化"|"優先順序"
+ 3|"區間資料"|"量化"|"大小距離"
+ 4|"比例資料"|"量化"|"比值"
+
 
 ---
 
@@ -775,7 +863,7 @@ mean(HengchunTem[7:9])
 
 ---
 
-- 找出冬天(十二,一,二月)平均溫度(想要能有錯誤訊息)
+- 找出冬天(十二,一,二月)平均溫度
 ```{r,error=FALSE}
 # TaipeiTem[1,2,12]
 
@@ -795,9 +883,7 @@ TemTable[1,2]
 #選取二月的溫度
 TemTable[,2]
 TemTable[1,]
-#??TemTable[HengchunTem]
-#?? 
-#??如何出現2的字樣
+
 ```
 
 ---
@@ -806,7 +892,7 @@ TemTable[1,]
 
 ```{r select_column, echo = TRUE}
 head(Boston)
-head(Boston[["crim"]]) # head(power$name)
+head(Boston[["crim"]]) # head(Boston$crim)
 ```
 
 ---
