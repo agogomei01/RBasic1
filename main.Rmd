@@ -65,6 +65,8 @@ doclick=function(e){
 library(MASS)
 #介紹引入套件
 data(Boston)
+Boston=subset(Boston,,-c(zn,chas,dis,rad,ptratio,indus,nox,tax))
+#刪減欄位
 ```
 
 ---
@@ -88,13 +90,10 @@ head(Boston)
 
 Column Name | 中文 | Column Name | 中文
 - | - | - | -
-crim | 犯罪率 | dis | weighted mean of distances to five Boston employment centres距離上班商業中心地點的英哩數
-zn | 住宅區比例 | rad | index of accessibility to radial highways.可到最近的主要高速公路網路的便利指標
-indus | 工業區比例 | Tax|full-value property-tax rate per \$10,000.房屋與土地相關的 Tax 比例
-chas | Charles River dummy variable | ptratio | pupil-teacher ratio by town 平均學生vs教師比例
-nox | 空氣中的一氧化氮比例(ppm)nitrogen oxides concentration (parts per 10 million). | black | 1000(Bk - 0.63)^2 where Bk is the proportion of blacks by town.非洲裔人口比例
-Rooms | 平均每戶的房間數目 | lstat | lower status of the population (percent).低收入戶比例
-age | proportion of owner-occupied units built prior to 1940.1940年前所建的自宅比例 | medv | median value of owner-occupied homes in \$1000s.自有住宅房價中位數
+crim | 犯罪率 | Rooms | 平均每戶的房間數目
+dis | 離公司距離 | black | 非洲裔人口比例
+lstat | lower status of the population (percent).低收入戶比例 | medv | 自有住宅房價中位數
+
 
 ---
 
