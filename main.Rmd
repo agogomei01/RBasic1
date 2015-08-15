@@ -2,7 +2,14 @@
 title: "R Basic-DataStructure"
 author: "NingChen"
 output:
-  revealjs::revealjs_presentation
+  revealjs::revealjs_presentation:
+    theme: beige
+  ioslides_presentation:
+    theme: flatly
+    highlight: default
+    widescreen: true
+    number_section: true
+  
 
 ---
 
@@ -15,6 +22,10 @@ output:
 .reveal pre code span {
   color: black;
   font-weight: normal;
+}
+
+.variable{
+  color: black;
 }
 
 div.hidecode + pre + pre {display: none}
@@ -31,7 +42,7 @@ doclick=function(e){
 </script>
 
 
-# WhyR 
+# Why R 
 
 ---
 
@@ -82,7 +93,16 @@ head(Boston)
 
 ---
 
-你也可以使用head(),Tail(),summary(),str()
+你也可以使用head(),tail(),summary(),str()
+<br>
+<br>
+<br>
+<br>  
+<div class="variable">
+函數(x)
+
+</div>
+
 
 ---
 
@@ -103,6 +123,14 @@ lstat | lower status of the population (percent).低收入戶比例 | medv | 自
 #解釋1非常正相關 -1是非常負相關
 cor(Boston$medv,Boston)
 ```
+<br>
+<br>
+<br>
+<div class="variable">
+關聯性
+cor(x, y)
+</div>
+
 
 ---
 
@@ -112,6 +140,15 @@ R也可以讓你用圖來看各欄位跟房價之間的關聯度
 barplot(cor(Boston$medv,Boston))
 
 ```
+<br>
+<br>
+<br>
+<div class="variable">
+長條圖
+barplot()
+</div>
+
+
 
 ---
 
@@ -137,6 +174,23 @@ abline(LM,col=2)
 #畫出圖
 
 ```
+<br>
+<br>
+<br>
+<div class="variable">
+畫圖 
+plot(x,y)
+
+線性模型(二元一次方程式,線性迴歸....)
+lm(y~x)
+
+在plot上加直線
+abline(x,col=)
+</div>
+
+
+
+
 
 ---
 
@@ -164,6 +218,15 @@ abline(LM,col=2)
 ```{r}
 quantile(Boston$medv, probs = c(0.95, 0.9))
 ```
+<br>
+<br>
+<br>
+<div class="variable">
+百分位數點
+quantile(x, probs=)
+</div>
+
+
 
 ---
 
@@ -174,6 +237,16 @@ quantile(Boston$medv, probs = c(0.95, 0.9))
 ```{r}
 hist(Boston$medv,breaks=20)
 ```
+<br>
+<br>
+<br>
+<div class="variable">
+柱狀圖
+hist(x,breaks= )
+breaks:分成幾類
+
+</div>
+
 
 ---
 
@@ -186,7 +259,17 @@ hist(Boston$medv,breaks=20)
 hist(Boston$medv, breaks = 20)
 abline(v = 43.4, col="red")
 ```
+<br>
+<br>
+<br>
+<div class="variable">
+柱狀圖
+hist(x,breaks= )
+breaks:分成幾類
 
+在plot上加直線
+abline(x,col=)
+</div>
 ---
 
 #### 高房價與其他是否有差異
@@ -206,7 +289,13 @@ MEDVOther = subset(Boston,Boston$medv< 43.4)
 # MEDVhight 為房價高的資料
 # MEDVOther 其他資料
 ```
-
+<br>
+<br>
+<br>
+<div class="variable">
+選取資料
+subset(x,condition)
+</div>
 ---
 
 ##### 平均-高房價與其他是否有差異
@@ -220,7 +309,13 @@ colMeans(MEDVhight)
 ```{r}
 colMeans(MEDVOther)
 ```
- 
+<br>
+<br>
+<br>
+<div class="variable">
+欄平均
+colMeans()
+</div>
 ---
 
 - 使用 `rbind` 合併資料表。
@@ -230,7 +325,13 @@ rbind(colMeans(MEDVhight),colMeans(MEDVOther))
 ```
 
 高房價區 犯罪率較低 工業區較少 住宅區比例高
-
+<br>
+<br>
+<br>
+<div class="variable">
+Row Bind
+rbind(row1,row2)
+</div>
 
 
 
